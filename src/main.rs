@@ -1,11 +1,37 @@
 use rand::Rng;
+use std::time::{Duration, Instant};
 
 fn main() {
-    let stat: i32 = roll_stat();
-    println!("Rolled stat: {}", stat);
+    let mut fits_specs: bool = false;
+    let mut acc: u32 = 0;
+
+    // benchmarking!!
+    let mut start_time: Instant = Instant::now(); 
+
+    while !fits_specs {        
+        acc += 1;
+
+        let stat_block = create_stat_set();
+        fits_specs = verify(&stat_block, 5, 18, 16); 
+
+        if fits_specs {
+            println!("{:?}, Iterations: {}", stat_block, acc);
+        }
+
+        if acc % 1000000 == 0 {
+            let elapsed_time: Duration = start_time.elapsed();
+            let ops: f64 = (1.0 / elapsed_time.as_millis() as f64) * 1000000000 as f64;
+
+            println!("1 million iterations in: {:?}\n{} operations per second\n", elapsed_time, ops);
+
+            start_time = Instant::now();
+        }
+            
+        
+    }
 }
 
-fn verify(vec: Vec<i32>, count: i32, target: i32, least: i32) -> bool {
+fn verify(vec: &Vec<i32>, count: i32, target: i32, least: i32) -> bool {
     if vec.is_empty() {
         return false;
     }
