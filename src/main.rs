@@ -4,19 +4,17 @@ use std::time::{Duration, Instant};
 fn main() {
     let mut fits_specs: bool = false;
     let mut acc: u32 = 0;
+    let mut stat_block: Vec<i32> = vec![];
 
     // benchmarking!!
     let mut start_time: Instant = Instant::now(); 
+    
 
     while !fits_specs {        
         acc += 1;
 
-        let stat_block = create_stat_set();
-        fits_specs = verify(&stat_block, 5, 18, 16); 
-
-        if fits_specs {
-            println!("{:?}, Iterations: {}", stat_block, acc);
-        }
+        stat_block = create_stat_set();
+        fits_specs = verify(&stat_block, 4, 18, 16); 
 
         if acc % 1000000 == 0 {
             let elapsed_time: Duration = start_time.elapsed();
@@ -25,10 +23,9 @@ fn main() {
             println!("1 million iterations in: {:?}\n{} operations per second\n", elapsed_time, ops);
 
             start_time = Instant::now();
-        }
-            
-        
+        }   
     }
+    println!("{:?}, Iterations: {}", stat_block, acc);
 }
 
 fn verify(vec: &Vec<i32>, count: i32, target: i32, least: i32) -> bool {
