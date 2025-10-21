@@ -18,7 +18,7 @@ fn main() {
 
         if acc % 1000000 == 0 {
             let elapsed_time: Duration = start_time.elapsed();
-            let ops: f64 = (1.0 / elapsed_time.as_millis() as f64) * 1000000000 as f64;
+            let ops: f64 = (1.0 / elapsed_time.as_secs() as f64) * 1000000 as f64;
 
             println!("1 million iterations in: {:?}\n{} operations per second\n", elapsed_time, ops);
 
