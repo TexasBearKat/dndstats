@@ -5,8 +5,27 @@ fn main() {
     println!("Rolled stat: {}", stat);
 }
 
-fn verify() -> bool {
+fn verify(vec: Vec<i32>, count: i32, target: i32, least: i32) -> bool {
+    if vec.is_empty() {
+        return false;
+    }
     
+    let mut amount: i32 = 0;
+    
+    for &x in vec.iter() {
+        if x < least {
+            return false;
+        }
+        
+        if x >= target {
+            amount += 1;
+        }
+    }
+    
+    if amount >= count {
+        return true;
+    }
+    false
 }
 
 fn roll_stat() -> i32 {
