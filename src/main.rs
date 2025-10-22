@@ -1,7 +1,7 @@
 use rand::Rng;
 use std::time::{Duration, Instant};
 use std::io;
-// use drugs
+// branch test
 
 fn main() {
     let mut fits_specs: bool = false;
