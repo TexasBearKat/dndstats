@@ -56,10 +56,7 @@ fn verify(vec: &Vec<i32>, count: i32, target: i32, least: i32) -> bool {
         }
     }
     
-    if amount >= count {
-        return true;
-    }
-    false
+    amount >= count
 }
 
 fn roll_stat(rng: &mut impl Rng) -> i32 {
