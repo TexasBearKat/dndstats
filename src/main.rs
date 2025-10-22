@@ -1,10 +1,20 @@
 use rand::Rng;
 use std::time::{Duration, Instant};
+use std::io;
+// use drugs
 
 fn main() {
     let mut fits_specs: bool = false;
     let mut acc: u32 = 0;
     let mut stat_block: Vec<i32> = vec![];
+
+    // user input kinda goes hard
+
+    let inputs: Vec<i32> = take_user_input();
+
+    let count: i32 = inputs[0];
+    let target: i32 = inputs[1];
+    let least: i32 = inputs[2];
 
     // benchmarking!!
     let mut start_time: Instant = Instant::now(); 
@@ -14,7 +24,7 @@ fn main() {
         acc += 1;
 
         stat_block = create_stat_set();
-        fits_specs = verify(&stat_block, 5, 18, 17); 
+        fits_specs = verify(&stat_block, count, target, least); 
 
         if acc % 1000000 == 0 {
             let elapsed_time: Duration = start_time.elapsed();
@@ -91,3 +101,29 @@ fn drop_lowest(mut vec: Vec<i32>) -> Vec<i32> {
     vec.remove(min_index);
     vec
 }
+
+fn take_user_input() -> Vec<i32> {
+    let mut inputs: Vec<i32> = vec![];
+
+    let prompts: Vec<&str> = vec!["Count?", "Target?", "Least?"];
+
+    for x in prompts.iter() {
+        let mut input: String = String::new();
+
+        println!("{}", x);
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        match input.trim().parse::<i32>() {
+            Ok(num) => inputs.push(num),
+            Err(_) => {
+                println!("Invalid input. Please enter a number.");
+                return vec![0]
+            }
+        }
+    }
+    inputs
+}
+
+// hehehehehehehehehe
