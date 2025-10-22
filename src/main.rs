@@ -7,7 +7,7 @@ fn main() {
     let mut fits_specs: bool = false;
     let mut acc: u32 = 0;
     let mut stat_block: Vec<i32> = vec![];
-    let mut random_seed = rand::thread_rng()
+    let mut random_seed = rand::thread_rng();
     
     // user input kinda goes hard
 
@@ -24,7 +24,7 @@ fn main() {
     while !fits_specs {        
         acc += 1;
 
-        stat_block = create_stat_set(&random_seed);
+        stat_block = create_stat_set(&mut random_seed);
         fits_specs = verify(&stat_block, count, target, least); 
 
         if acc % 1000000 == 0 {
