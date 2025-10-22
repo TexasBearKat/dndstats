@@ -7,7 +7,7 @@ fn main() {
     let mut fits_specs: bool = false;
     let mut acc: u32 = 0;
     let mut stat_block: Vec<i32> = vec![];
-    let mut random_seed = rand::thread_rng();
+    let mut random_seed = rand::rng();
     
     // user input kinda goes hard
 
@@ -63,7 +63,7 @@ fn roll_stat(rng: &mut impl Rng) -> i32 {
     let mut rolls = [0; 4];
     
     for i in 0..4 {
-        rolls[i] = rng.gen_range(1..7)
+        rolls[i] = rng.random_range(1..7)
     }
     
     let min = *rolls.iter().min().unwrap();
