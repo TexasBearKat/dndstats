@@ -11,5 +11,3 @@ target: number you want or higher
 least: lowest number allowed
 
 -------------------------------------------
-
-<3
