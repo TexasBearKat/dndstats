@@ -1,13 +1,14 @@
 use rand::Rng;
 use std::time::{Duration, Instant};
 use std::io;
-// use drugs
+// branch test
 
 fn main() {
     let mut fits_specs: bool = false;
     let mut acc: u32 = 0;
     let mut stat_block: Vec<i32> = vec![];
-
+    let mut random_seed = rand::thread_rng();
+    
     // user input kinda goes hard
 
     let inputs: Vec<i32> = take_user_input();
@@ -23,14 +24,14 @@ fn main() {
     while !fits_specs {        
         acc += 1;
 
-        stat_block = create_stat_set();
+        stat_block = create_stat_set(&mut random_seed);
         fits_specs = verify(&stat_block, count, target, least); 
 
         if acc % 1000000 == 0 {
             let elapsed_time: Duration = start_time.elapsed();
             let ops: f64 = (1_000_000.0 / elapsed_time.as_millis() as f64) * 1000 as f64;
 
-            println!("1 million iterations in: {:?}\n{} operations per second\n", elapsed_time, ops);
+            println!("1 million iterations in: {:?}\n{} operations per second\n{} total operations\n", elapsed_time, ops, acc);
 
             start_time = Instant::now();
         }   
@@ -55,32 +56,22 @@ fn verify(vec: &Vec<i32>, count: i32, target: i32, least: i32) -> bool {
         }
     }
     
-    if amount >= count {
-        return true;
-    }
-    false
+    amount >= count
 }
 
-fn roll_stat() -> i32 {
-    let mut rolls: Vec<i32> = Vec::new();
-    let mut rng = rand::rng();
-
-    while rolls.len() < 4 {
-        rolls.push(rng.random_range(1..=6));
+fn roll_stat(rng: &mut impl Rng) -> i32 {
+    let mut rolls = [0; 4];
+    
+    for i in 0..4 {
+        rolls[i] = rng.gen_range(1..7)
     }
-
-    rolls = drop_lowest(rolls);
-    rolls.iter().sum()
+    
+    let min = *rolls.iter().min().unwrap();
+    rolls.iter().sum::<i32>() - min
 }
 
-fn create_stat_set() -> Vec<i32> {
-    let mut set: Vec<i32> = vec![];
-
-    while set.len() < 6 {
-        set.push(roll_stat());
-    }
-
-    set
+fn create_stat_set(rng: &mut impl Rng) -> Vec<i32> {
+    (0..6).map(|_| roll_stat(rng)).collect()
 }
 
 
