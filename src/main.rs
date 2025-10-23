@@ -1,7 +1,9 @@
 use rand::Rng;
 use std::time::{Duration, Instant};
-use std::io;
+use std::io::{self, Write};
 // branch test
+
+// example
 
 fn main() {
     let mut fits_specs: bool = false;
@@ -31,7 +33,11 @@ fn main() {
             let elapsed_time: Duration = start_time.elapsed();
             let ops: f64 = (1_000_000.0 / elapsed_time.as_millis() as f64) * 1000 as f64;
 
-            println!("1 million iterations in: {:?}\n{} operations per second\n{} total operations\n", elapsed_time, ops, acc);
+            print!("\x1b[3A"); // Move up 3 lines
+            print!("\x1b[2K{} operations per second\n", ops.round());
+            print!("\x1b[2K1 million operations completed in: {:?}ms\n", elapsed_time);
+            print!("\x1b[2K{} total operations\n", acc);
+            io::stdout().flush().unwrap();
 
             start_time = Instant::now();
         }   
@@ -95,6 +101,7 @@ fn take_user_input() -> Vec<i32> {
             }
         }
     }
+    println!("\n\n");
     inputs
 }
 
