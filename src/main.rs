@@ -6,43 +6,13 @@ use std::io::{self, Write};
 // example
 
 fn main() {
-    let mut fits_specs: bool = false;
-    let mut acc: u32 = 0;
-    let mut stat_block: Vec<i32> = vec![];
-    let mut random_seed = rand::rng();
-    
-    // user input kinda goes hard
-
     let inputs: Vec<i32> = take_user_input();
 
     let count: i32 = inputs[0];
     let target: i32 = inputs[1];
     let least: i32 = inputs[2];
 
-    // benchmarking!!
-    let mut start_time: Instant = Instant::now(); 
-    
-
-    while !fits_specs {        
-        acc += 1;
-
-        stat_block = create_stat_set(&mut random_seed);
-        fits_specs = verify(&stat_block, count, target, least); 
-
-        if acc % 1000000 == 0 {
-            let elapsed_time: Duration = start_time.elapsed();
-            let ops: f64 = (1_000_000.0 / elapsed_time.as_millis() as f64) * 1000 as f64;
-
-            print!("\x1b[3A"); // Move up 3 lines
-            print!("\x1b[2K{} operations per second\n", ops.round());
-            print!("\x1b[2K1 million operations completed in: {:?}ms\n", elapsed_time);
-            print!("\x1b[2K{} total operations\n", acc);
-            io::stdout().flush().unwrap();
-
-            start_time = Instant::now();
-        }   
-    }
-    println!("{:?}, Iterations: {}", stat_block, acc);
+    main_loop(count, target, least);
 }
 
 fn verify(vec: &Vec<i32>, count: i32, target: i32, least: i32) -> bool {
@@ -103,6 +73,36 @@ fn take_user_input() -> Vec<i32> {
     }
     println!("\n\n\n");
     inputs
+}
+
+fn main_loop(count: i32, target: i32, least: i32) -> bool {
+    let mut start_time: Instant = Instant::now(); 
+    let mut random_seed = rand::rng();
+    let mut fits_specs: bool = false;
+    let mut acc: i32 = 0;
+    let mut stat_block: Vec<i32> = vec![];
+
+    while !fits_specs {        
+        acc += 1;
+
+        stat_block = create_stat_set(&mut random_seed);
+        fits_specs = verify(&stat_block, count, target, least); 
+
+        if acc % 1000000 == 0 {
+            let elapsed_time: Duration = start_time.elapsed();
+            let ops: f64 = (1_000_000.0 / elapsed_time.as_millis() as f64) * 1000 as f64;
+
+            print!("\x1b[3A"); // Move up 3 lines
+            print!("\x1b[2K{} operations per second\n", ops.round());
+            print!("\x1b[2K1 million operations completed in: {:?}ms\n", elapsed_time);
+            print!("\x1b[2K{} total operations\n", acc);
+            io::stdout().flush().unwrap();
+
+            start_time = Instant::now();
+        }   
+    }
+    println!("{:?}, Iterations: {}", stat_block, acc);
+    fits_specs
 }
 
 // hehehehehehehehehe
