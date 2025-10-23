@@ -101,6 +101,7 @@ fn take_user_input() -> Vec<i32> {
             }
         }
     }
+    println!("\n\n\n");
     inputs
 }
 
