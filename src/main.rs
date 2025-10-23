@@ -74,25 +74,6 @@ fn create_stat_set(rng: &mut impl Rng) -> Vec<i32> {
     (0..6).map(|_| roll_stat(rng)).collect()
 }
 
-
-
-fn drop_lowest(mut vec: Vec<i32>) -> Vec<i32> {
-    if vec.is_empty() {
-        return vec;
-    }
-
-    let (mut min_index, mut min_value) = (0, vec[0]);
-    for (i, &val) in vec.iter().enumerate() {
-        if val < min_value {
-            min_value = val;
-            min_index = i;
-        }
-    }
-
-    vec.remove(min_index);
-    vec
-}
-
 fn take_user_input() -> Vec<i32> {
     let mut inputs: Vec<i32> = vec![];
 
